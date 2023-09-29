@@ -37,13 +37,19 @@ exports.down = function (knex) {
 
 /* GUIA RAPIDA DE USO KNEX */
 
-// Crear una Migracion
+// CREAR UNA MIGRACION //
 // knex migrate:make nombre_de_la_migracion
 
-// **EJECUTAR LAS MIGRACIONES SOBRE EXPORTS.UP()
+// EJECUTAR LAS MIGRACIONES SOBRE EXPORTS.UP()
+// - Al ejecutar una migracion sobre export.up estamos creando o modificando la tabla de la base de datos.
 // Ejecutar la ultima migracion (up): knex migrate:latest
 // Ejecutar todas las migraciones (up): knex migrate:up
 // Ejecutar una migracion especifica (up): knex migrate:up nombre_de_la_migracion.js
 
-// **EJECUTAR LAS MIGRACIONES SOBRE EXPORTS.DOWN()
-// Ejecutar la ultima migracion (up// Ejecutar la ultima migracion (up): knex migrate:lates): knex migrate:latest
+// EJECUTAR LAS MIGRACIONES SOBRE EXPORTS.DOWN()
+// Al Ejecutar migracion  sobre export.down estamos eliminando o modificando
+// la tabla de la base de datos al que le hicimos cambioen en exports.up
+
+// Deshacer la ultima Migracion (down): knex migrate:lates): knex migrate:rollback latest
+// Deshacer todas las Migraciones (down): knex migrate:lates): knex migrate:rollback
+// Deshacer una migracion especifica (down): knex migrate:down nombre_de_la_aplicacion
