@@ -1,0 +1,133 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 CREATE TABLE customer (\
+	customer_id serial PRIMARY KEY,\
+	customer_name VARCHAR(100) NOT NULL,\
+	fisrt_name VARCHAR(100) NOT NULL,\
+	last_name VARCHAR(100) NOT NULL,\
+	email VARCHAR(100) UNIQUE,\
+	phone VARCHAR(100) NOT NULL,\
+	address VARCHAR(100) NOT NULL,\
+	neighborhood VARCHAR(100) NOT NULL,\
+	city VARCHAR(100) NOT NULL,\
+	postal_code VARCHAR(100) NOT NULL\
+);\
+\
+CREATE TABLE product (\
+	sku serial PRIMARY KEY,\
+	product_name VARCHAR(100) NOT NULL,\
+	description VARCHAR(100) NOT NULL,\
+	price VARCHAR(100) NOT NULL\
+\
+);\
+\
+CREATE TABLE sales (\
+	sales_order serial PRIMARY KEY,\
+	customer_id int NOT NULL,\
+	sku int NOT NULL,\
+	FOREIGN KEY (customer_id) REFERENCES customer (customer_id),\
+	FOREIGN KEY (sku) REFERENCES product (sku),\
+	qty int NOT NULL,\
+	amount int NOT NULL,\
+	sales_date date NOT NULL\
+	\
+);\
+\
+ALTER TABLE customer RENAME COLUMN fisrt_name TO first_name\
+\
+INSERT INTO customer (customer_name, first_name, last_name, email, phone, address, neighborhood, city, postal_code)\
+VALUES ('Cristina', 'Morales', 'Maldonado','cristina@correo.com','3311567890','Tulipoanes 1345','Jardines la esperanza','Zapopan','45600'), ('Pedro', 'Sandoval', 'Cortes', 'pedro@correo.com', '827623560', 'Colibries 34','Las torres','Monterrey','56782'), ('Javier', 'Gonzalez', 'Perez', 'javier@correo.com', '45567690', 'Arcos Vallarta','Lomas del Paraiso','Tamaulipas','34567'), ('Juan', 'Ceja', 'Hernandez', 'juan@correo.com', '238904326', 'Cerezos 223','Lomas del Bosque','Leon','54390'), ('Alicia', 'Castillo', 'Covarrubias', 'alicia@correo.com', '4556792134', 'Hidalgo 3456','Centro','Guadalajara','45678') ('Sergio', 'Aguilar', 'Torres', 'sergio@correo.com', '224589102', 'Bandera Nacional 2345','Ni\'f1os Heroes','Coahuila','22458'),('Alejandro', 'Lomeli', 'Terrones', 'alejandro@correo.com', '789032571', 'Manzanos 23','Emiliano Zapata','Chihuahua','82355'), ('Enrique', 'Jasso', 'Arellano', 'enrique@correo.com', '785122430', 'Tulipanes 1345','Limoneros 34','Fresnillo','67900'), ('Elena', 'Sanchez', 'Perez', 'elena@correo.com', '98672215', 'Norte 59','Alta vista','Morelos','23678'), ('Oscar', 'Corona', 'Buenrostro', 'oscar@correo.com', '567734591', 'Mariposa 456','La Periquera','Cuautla','12547'),('Juan', 'Ruiz', 'Casas', 'juan1@correo.com', '23389001', 'Pergamino 54','Escritores','Tuxtla Gutierrez','78945'), ('Gabriela', 'Campos', 'Valenciano', 'gabriela@correo.com', '93283477', 'Fresno 5698','Casas Grandes','Zamora','23579'), ('Emmanuel', 'Carvajal', 'Mendoza', 'emmanuel@correo.com', '78565894', 'Doctor R Michel 45','Valle del Real','Monterrey','56890'), ('Ricardo', 'Rodriguez', 'Solano', 'ricardo@correo.com', '23568123', 'Vino 67','bosques del Centinela', 'Manzanillo', '437891');\
+\
+INSERT INTO product (product_name, description, price)\
+VALUES ('Leche', 'Leche entera 1 litro', '22'), ('Jabon','Jabon en polvo 1 kg', '30'),\
+('Fibra','fibra para trates', '15'), ('Pasta dental', 'Pasta 45ml', '25'), ('Pan Bimbo','Pan blanco 650 gr','48'), \
+('Tostadas', 'Tostada horneada 25 pzas', '23'), ('Azucar', 'Azucar estandar 1 kg', '35'),('Atun','Atun en agua','18'),\
+('cerillos','Caja con 100 pzs', '12'),('Aceite','Aceite vegetal 1lt','25'), ('Agua Mineral','Agua 350 ml','15'),\
+('Cereal zucaritas', 'Zucaritas 400gr','45'), ('Chiles escabeche', 'Lata de 200gr','22'),\
+('Yogurt Griego','Griego sin Azucar','38'),('Mantequilla','Barra 90 grs', '18'),\
+('Frijoles fritos', 'Bolsa de 300 gr', '34'),('Jugo Manzana', 'Jugo de 450 ml','34'),\
+('Canela en polvo', 'Bote de 100gr','56');\
+\
+____________________________________\
+QUERIES\
+1. ID de los clientes de MTY\
+SELECT customer_id,city FROM customer\
+WHERE city = 'Monterrey'\
+\
+2. ID y descripcion de los productos que cuesten menos de 15 pesos\
+SELECT sku,description FROM product\
+WHERE price < '15'\
+\
+3. ID y nombre de los clientes, cantidad vendida y descripocion del producto,  en las ventas en las cuales de vendieron mas de 10 uniodades\
+SELECT c.customer_id,c.customer_name, s.qty, p.description\
+FROM customer AS c\
+INNER JOIN sales AS s\
+ON s.customer_id = c.customer_id\
+INNER JOIN product AS p \
+ON s.sku = p.sku\
+WHERE s.qty > 10\
+\
+4. ID y nombre de los clientes que no aparecen en la tabla de ventas, clientes que no han comprado productos\
+SELECT customer.customer_id, customer_name \
+FROM customer\
+LEFT JOIN sales \
+ON customer.customer_id = sales.customer_id\
+WHERE sales.customer_id IS NULL\
+\
+5. ID y nombre de los clientes que han comprado todos los productos de la empresa\
+\
+\
+SELECT customer.customer_name FROM (\
+									SELECT customer_id,sku FROM sales\
+									GROUP BY customer_id,sku\
+									ORDER BY customer_id,sku) as t\
+JOIN customer ON customer.customer_id = t.customer_id\
+GROUP BY t.customer_id,customer.customer_name \
+HAVING COUNT(*) = (SELECT COUNT(*) FROM product)\
+\
+\
+6. ID y nombre de cada cliente y la suma total de cantidad de los productos que ha comprado \
+SELECT c.customer_id, customer_name, SUM (s.qty)AS total_product_purchased\
+FROM customer AS c\
+LEFT JOIN sales AS s\
+ON c.customer_id = s.customer_id\
+GROUP BY c.customer_id, c.customer_name\
+\
+7. ID de los productos que no han sido comprado por los clientes en Guadalajara\
+SELECT p.sku\
+FROM product AS p\
+WHERE p.sku IN (\
+	SELECT s.sku\
+	FROM sales AS s\
+	INNER JOIN customer AS c\
+	ON s.customer_id = c.customer_id\
+	WHERE c.city = 'Monterrey' AND c.city = 'Cancun'\
+)\
+\
+\
+8. ID de los productos que se han vendido  a clientes de Monterrey y que tambien de han vendido a los clientes de Cancun\
+SELECT p.sku\
+FROM product AS p\
+WHERE p.sku IN (\
+	SELECT s.sku\
+	FROM sales AS s\
+	INNER JOIN customer AS c\
+	ON s.customer_id = c.customer_id\
+	WHERE c.city = 'Monterrey' AND c.city = 'Cancun'\
+)\
+\
+9. Nombre de las ciudades donde se han vendido todos los productos\
+\
+\
+SELECT customer.customer_name FROM (\
+									SELECT customer_id,sku FROM sales\
+									GROUP BY customer_id,sku\
+									ORDER BY customer_id,sku) as t\
+JOIN customer ON customer.customer_id = t.customer_id\
+GROUP BY t.customer_id,customer.customer_name \
+HAVING COUNT(*) = (SELECT COUNT(*) FROM product)}
