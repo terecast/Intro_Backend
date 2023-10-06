@@ -51,7 +51,6 @@ const petList = {
 //llamar solo las que nos interesan
 
 router.get('/api/v1/pets', (request, response) => {
-    console.log('Query de Pets',request.query)
     const { age, type } = request.query
     if (!age && !type) {
         response.status(200).send(petList)
