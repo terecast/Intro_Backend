@@ -124,10 +124,11 @@ WHERE p.sku IN (\
 9. Nombre de las ciudades donde se han vendido todos los productos\
 \
 \
-SELECT customer.customer_name FROM (\
-									SELECT customer_id,sku FROM sales\
-									GROUP BY customer_id,sku\
-									ORDER BY customer_id,sku) as t\
+SELECT customer.cty FROM (\
+					SELECT customer_id,sku FROM sales\
+					GROUP BY customer_id,sku\
+					ORDER BY customer_id,sku) as t\
 JOIN customer ON customer.customer_id = t.customer_id\
-GROUP BY t.customer_id,customer.customer_name \
-HAVING COUNT(*) = (SELECT COUNT(*) FROM product)}
+GROUP BY customer.city\
+HAVING COUNT(*) = (SELECT COUNT(*) FROM product)\
+}
