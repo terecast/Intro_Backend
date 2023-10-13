@@ -1,0 +1,63 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 QUERIES EJERCICIO PROVEEDORES\
+\
+CREATE TABLE supplier (\
+	supplier_id serial PRIMARY KEY,\
+	supplier_name varchar(150) NOT NULL,\
+	supplier_address varchar(150) NOT NULL,\
+	city varchar(150) NOT NULL,\
+	province varchar(150) NOT NULL\
+	);\
+CREATE TABLE product (\
+	product_id serial PRIMARY KEY,\
+	product_name varchar(150) NOT NULL,\
+	product_color varchar(150) NOT NULL,\
+	product_price varchar(150) NOT NULL,\
+        category_id INT NOT NULL,\
+	FOREIGN KEY (category_id) REFERENCES category (category_id)\
+	);\
+	\
+CREATE TABLE category (\
+	category_id serial PRIMARY KEY,\
+	category_name varchar (150) NOT NULL\
+);\
+\
+CREATE TABLE purchase_order (\
+	purchase_id serial PRIMARY KEY,\
+	delivery_date varchar (150) NOT NULL,\
+	product_id INT NOT NULL,\
+        supplier_id INT NOT NULL,\
+FOREIGN KEY (product_id) REFERENCES product (product_id),\
+	FOREIGN KEY (supplier_id) REFERENCES supplier (supplier_id),\
+	qty INT\
+\
+);\
+\
+CREATE TABLE supplier_product(\
+	product_id serial PRIMARY KEY,\
+	supplier_id serial PRIMARY KEY\
+\
+);\
+\
+CREATE TABLE supplier_product(\
+	product_id INT NOT NULL,\
+	supplier_id INT NOT NULL,\
+	FOREIGN KEY (product_id)REFERENCES product (product_id),\
+	FOREIGN KEY (supplier_id)REFERENCES supplier (supplier_id),\
+	PRIMARY KEY (product_id, supplier_id)\
+	/*composite Primary Key*/\
+);\
+\
+\
+INSERT INTO supplier (supplier_name, supplier_address, supplier_city, supplier_province)\
+VALUES ('Abarrotera Don Pedro','Calle Zaragoza no.22', 'Zapopan','Jalisco')\
+\
+INSERT INTO category (category_name)\
+VALUES ('Limpieza')\
+}
